@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         SharedPreferences prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         lineNumber = prefs.getInt("lineNumber", 0);
-        tx.setText(prefs.getString("text", "Empty") + "\n");
+        tx.setText(prefs.getString("text", "") + "\n");
         vis = prefs.getBoolean("vis", false);
         choiceMade = prefs.getBoolean("choiceMade",true);
 
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 choiceMade = true;
                 c1.setVisibility(v.INVISIBLE);
                 c2.setVisibility(v.INVISIBLE);
+                tx.setText(tx.getText()+">>>>>"+c1.getText()+"<<<<<<\n");
                 lineNumber = choice * 100;
                 choice+=2;
                 break;
@@ -73,9 +74,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 choiceMade = true;
                 c1.setVisibility(v.INVISIBLE);
                 c2.setVisibility(v.INVISIBLE);
+                tx.setText(tx.getText()+">>>>>"+c2.getText()+" <<<<<<\n");
                 lineNumber = (choice + 1) * 100;
                 choice+=2;
-                tx.setText(tx.getText() + "Unfinished Choice");
+                tx.setText(tx.getText() + "Unfinished Choice\n");
                 break;
         }
 
