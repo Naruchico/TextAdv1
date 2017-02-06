@@ -1,6 +1,7 @@
 package com.ravensethstudios.text_adventure1;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Handler;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView tx;
     Button c1;
     Button c2;
+    ImageButton menu;
     boolean vis = false;
     int lineNumber;
     int choice = 1;
@@ -44,12 +47,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tx = (TextView) findViewById(R.id.textView);
         c1 = (Button) findViewById(R.id.Choice1);
         c2 = (Button) findViewById(R.id.Choice2);
+        menu = (ImageButton) findViewById(R.id.menuButton);
+
         c1.setOnClickListener(this);
         c2.setOnClickListener(this);
+        menu.setOnClickListener(this);
 
         SharedPreferences prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
         lineNumber = prefs.getInt("lineNumber", 0);
-        tx.setText(prefs.getString("text", "") + "\n");
+        tx.setText(prefs.getString("text", tx.getText()+"") + "\n");
         vis = prefs.getBoolean("vis", false);
         choiceMade = prefs.getBoolean("choiceMade",true);
 
@@ -68,16 +74,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 c2.setVisibility(v.INVISIBLE);
                 tx.setText(tx.getText()+">>>>>"+c1.getText()+"<<<<<<\n");
                 lineNumber = choice * 100;
-                choice+=2;
+                choice=choice + 2;
+                Log.i("Choice run","Run? "+ running);
                 break;
             case R.id.Choice2:
-                choiceMade = true;
+                choiceMade= true;
                 c1.setVisibility(v.INVISIBLE);
                 c2.setVisibility(v.INVISIBLE);
                 tx.setText(tx.getText()+">>>>>"+c2.getText()+" <<<<<<\n");
                 lineNumber = (choice + 1) * 100;
-                choice+=2;
+                choice = choice + 2;
                 tx.setText(tx.getText() + "Unfinished Choice\n");
+                break;
+            case R.id.menuButton:
+                startActivity(new Intent(MainActivity.this,BusyActivity.class));
                 break;
         }
 
@@ -137,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     else {
                         Log.i("Handler","Stopped");
-                        handler.removeCallbacks(this);
+                        handler.removeCallbacksAndMessages(null);
                     }
                 }
 
@@ -169,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void buttonBuilder() {
         int btn = choice * 100;
-
         if(text.get(btn) != null)
             {
                 c1.setText(text.get(btn));
@@ -181,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             running = false;
             tx.setText(tx.getText() + "Game over!\n");
+            lineNumber = 10000;
         }
     }
+    public void settings()
+        {}
 }
