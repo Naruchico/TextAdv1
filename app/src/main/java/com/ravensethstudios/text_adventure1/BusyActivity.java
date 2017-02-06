@@ -5,10 +5,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.webkit.WebView;
+import android.os.Handler;
 
 
 
 public class BusyActivity extends AppCompatActivity {
+
+    final Handler handler = new Handler();
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +30,20 @@ public class BusyActivity extends AppCompatActivity {
 
         getWindow().setLayout((int) (width*.8),(int)(height*0.6));
 
+        handler.postDelayed(timer,20000);
+
     }
     @Override
     public void onBackPressed() {
 
     }
+
+    public Runnable timer = new Runnable() {
+        @Override
+        public void run() {
+            finish();
+        }
+    };
+
+
 }

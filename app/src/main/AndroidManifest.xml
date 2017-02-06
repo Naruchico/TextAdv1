@@ -23,6 +23,10 @@
             android:theme="@style/AppTheme.Busy">
 
         </activity>
+        <activity android:name=".MenuActivity"
+            android:theme="@style/AppTheme.Menu">
+
+        </activity>
     </application>
 
 </manifest>

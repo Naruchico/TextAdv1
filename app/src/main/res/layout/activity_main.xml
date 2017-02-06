@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/Choice1"
                         android:clickable="true"
-                        android:visibility="visible" />
+                        android:visibility="invisible" />
 
                     <Button
                         android:text="Button"
@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/Choice2"
                         android:clickable="true"
-                        android:visibility="visible" />
+                        android:visibility="invisible" />
             </LinearLayout>
 
 
