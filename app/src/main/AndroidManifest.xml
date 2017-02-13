@@ -27,6 +27,7 @@
             android:theme="@style/AppTheme.Menu">
 
         </activity>
+        <receiver android:name="com.ravensethstudios.text_adventure1.AlertReceiver" />
     </application>
 
 </manifest>

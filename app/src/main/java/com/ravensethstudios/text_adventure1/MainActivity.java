@@ -1,17 +1,14 @@
 package com.ravensethstudios.text_adventure1;
 
-import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -77,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 lineNumber = choice * 100;
                 choice=choice + 2;
                 Log.i("Choice run","Run? "+ running);
+                setAlarm("test","awesome info!");
                 break;
             case R.id.Choice2:
                 choiceMade= true;
@@ -196,19 +195,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void showNotification() {
-        PendingIntent pi = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
-        Resources r = getResources();
-        Notification notification = new NotificationCompat.Builder(this)
-                .setTicker("Todah!")
-                .setSmallIcon(android.R.drawable.ic_menu_report_image)
-                .setContentTitle("Wammo!")
-                .setContentText("swhoosh")
-                .setContentIntent(pi)
-                .setAutoCancel(true)
-                .build();
+    public void setAlarm(String title, String msg) {
 
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
+        // Define a time value of 5 seconds
+        Long alertTime = new GregorianCalendar().getTimeInMillis()+10*1000;
+
+        // Define our intention of executing AlertReceiver
+        Intent alertIntent = new Intent(this, AlertReceiver.class);
+        alertIntent.putExtra("Title",title);
+        alertIntent.putExtra("Message",msg);
+
+        // Allows you to schedule for your application to do something at a later date
+        // even if it is in he background or isn't active
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        // set() schedules an alarm to trigger
+        // Trigger for alertIntent to fire in 5 seconds
+        // FLAG_UPDATE_CURRENT : Update the Intent if active
+        alarmManager.set(AlarmManager.RTC_WAKEUP, alertTime,
+                PendingIntent.getBroadcast(this, 1, alertIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT));
+
     }
+
+
 }
